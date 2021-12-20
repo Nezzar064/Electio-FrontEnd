@@ -22,9 +22,8 @@
   "type": "module",
   "dependencies": {
     "@fontsource/fira-mono": "^4.5.0",
-    "@lukeed/uuid": "^2.0.0",
-    "@macfja/svelte-persistent-store": "^1.2.0",
-    "cookie": "^0.4.1",
-    "daisyui": "^1.16.6"
+    "daisyui": "^1.16.6",
+    "js-base64": "^3.7.2",
+    "svelte-paginate": "0.0.1"
   }
 }
