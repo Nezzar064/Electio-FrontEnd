@@ -1,0 +1,16 @@
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+.vercel
+.output
+.TODO.txt
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
