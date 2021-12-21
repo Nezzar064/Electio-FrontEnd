@@ -1,62 +1,74 @@
 <script context="module">
+    //Fetches candidates so it is ready to display before page is loaded
+    // Accessing it with export let party..
+    export async function load({fetch}) {
+        const response = await fetch(`http://localhost:8080/api/party-management/party-names`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json());
 
+        if (response) {
+            return {props: {parties: response}};
+        }
+        return {
+            status: response,
+            error: new Error()
+        };
+    }
 </script>
 
 <script>
+    export let parties;
+
+    let mappedParties = parties.map(party => ({...party, votes: Math.floor(Math.random() * 600) + 150}));
+    //Sums up all votes for each party
+    const totalVotes = () => {
+        let total = 0;
+        for(let i=0; i<mappedParties.length; i++) {
+            total += mappedParties[i].votes;
+        }
+        return total;
+    }
+    console.log(mappedParties[1].votes)
 
 </script>
 
 <svelte:head>
-    <title>Result</title>
+    <title>Election Result</title>
 </svelte:head>
 
 <section>
     <div class="flex flex-row w-full px-20 p-20">
         <div class="grid flex-grow card rounded-box">
             <div>
-                <div class="overflow-x-auto">
-                    <table class="table w-60">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>Blue</td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>Hart Hagerty</td>
-                            <td>Desktop Support Technician</td>
-                            <td>Purple</td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>Brice Swyre</td>
-                            <td>Tax Accountant</td>
-                            <td>Red</td>
-                        </tr>
-                        <tr>
-                            <th>4</th>
-                            <td>Marjy Ferencz</td>
-                            <td>Office Assistant I</td>
-                            <td>Crimson</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div>
+                    <h1>
+                        <b>Election Result for each Party</b>
+                    </h1>
                 </div>
-
+                <div class="p-5">
+                    {#each mappedParties as party}
+                    <div class="shadow stats p-10">
+                        <div class="stat rounded-box w-60">
+                            <div class="stat-title">{party.partyName}</div>
+                            <div class="stat-value">{Math.round(party.votes/(totalVotes())*100)}%</div>
+                            <div class="stat-desc">{party.votes} out of {totalVotes()} total votes</div>
+                        </div>
+                    </div>
+                        {/each}
+                </div>
             </div>
         </div>
-        <div class="p-5">
+        <div class="btn-group p-5">
             <button class="btn-neutral btn w-16" on:click={() => history.back()}>Go Back</button>
         </div>
     </div>
 </section>
+
+<style>
+    .nav :global(.pagination-nav) {
+        background-color: #2f3340;
+        color: white;
+    }
+</style>

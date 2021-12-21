@@ -19,22 +19,22 @@
 </script>
 
 <script>
-    import { paginate } from 'svelte-paginate';
+    import {onMount} from "svelte";
+    import {DarkPaginationNav, paginate} from "svelte-paginate";
     export let candidates;
-    let items = candidates;
+
+    let items = [];
+
+    //Runs after component is rendered to DOM, controls lifecycle of component.
+    //
+    onMount(async() => {
+        items = candidates;
+    });
 
     //Pagination options
     let currentPage = 1;
     let pageSize = 8;
     $: paginatedItems = paginate({items, pageSize, currentPage });
-
-    let totalItems = items.length();
-    let numberOfButtons = Math.round(totalItems/pageSize);
-
-    //Sorted List
-
-
-
 
 </script>
 
@@ -73,20 +73,29 @@
                         {/each}
                         </tbody>
                     </table>
-                    <div class="btn-group">
-                        <button class="btn">Previous</button>
-
-                        <button class="btn">1</button>
-                        <button class="btn btn-active">2</button>
-                        <button class="btn">3</button>
-                        <button class="btn">4</button>
-                        <button class="btn">Next</button>
+                    <div class="btn-group nav">
+                        <DarkPaginationNav
+                                totalItems="{items.length}"
+                                pageSize="{pageSize}"
+                                currentPage="{currentPage}"
+                                limit="{1}"
+                                showStepOptions="{true}"
+                                on:setPage="{(p) => currentPage = p.detail.page}"
+                        />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="p-5">
+        <div class="btn-group p-5">
+            <button class="btn-primary btn w-16" on:click={() => items = items.sort((a, b) => a.partyName.localeCompare(b.partyName))}>Sort by Party</button>
             <button class="btn-neutral btn w-16" on:click={() => history.back()}>Go Back</button>
         </div>
     </div>
 </section>
+
+<style>
+    .nav :global(.pagination-nav) {
+        background-color: #2f3340;
+        color: white;
+    }
+</style>
