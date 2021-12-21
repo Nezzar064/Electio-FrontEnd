@@ -26,13 +26,10 @@
 
 <script>
     import {put} from "$lib/api";
-    import {goto} from "$app/navigation";
 
     export let decodedParams;
     export let candidateToEdit;
     export let parties;
-    console.log(candidateToEdit)
-
 
     let firstName;
     let lastName;
@@ -41,14 +38,17 @@
     console.log(lastName)
     console.log(party)
 
-    async function submit(firstName, lastName, party) {
+    async function submit(firstname, lastname, partyName) {
 
         const response = await put(`candidate-management/candidates/${candidateToEdit.id}`, {
-            firstName: firstName,
-            lastName: lastName,
-            partyName: party
+            firstName: firstname,
+            lastName: lastname,
+            partyName: partyName
         });
         if (response) {
+            firstName = null;
+            lastName = null;
+            party = null;
             return alert("Edit was successful - press Return to go back");
         }
         return alert("Error Occurred");

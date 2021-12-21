@@ -33,13 +33,16 @@
     let lastName;
     let party;
 
-    async function submit(firstName, lastName, party) {
+    async function submit(firstname, lastname, partyName) {
         const response = await post(`candidate-management/candidates/add`, {
-            firstName: firstName,
-            lastName: lastName,
-            partyName: party
+            firstName: firstname,
+            lastName: lastname,
+            partyName: partyName
         });
         if (response) {
+            firstName = null;
+            lastName = null;
+            party = null;
             return alert("Successfully added candidate! - press Return to go back");
         }
         return alert("Error Occurred");

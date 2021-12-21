@@ -26,7 +26,6 @@
     let items = [];
 
     //Runs after component is rendered to DOM, controls lifecycle of component.
-    //
     onMount(async() => {
         items = candidates;
     });
