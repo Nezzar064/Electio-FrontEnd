@@ -65,10 +65,3 @@
         </div>
     </div>
 </section>
-
-<style>
-    .nav :global(.pagination-nav) {
-        background-color: #2f3340;
-        color: white;
-    }
-</style>
